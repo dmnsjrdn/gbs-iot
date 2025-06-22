@@ -35,7 +35,6 @@ function BinLogRow({
     id: id,
     bin_id,
     value,
-    is_active,
     created_at
   },
 }) {

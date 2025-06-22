@@ -1,33 +1,31 @@
-import UserRow from "./UserRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
-
-import { useUsers } from "./useUsers";
 import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
+import { useDustBins } from "./useDustBins";
+import DustBinRow from "./DustBinRow";
 
-function UserTable() {
-  const { users, isLoading, count } = useUsers();
-  
+function DustBinTable() {
+  const { isLoading, error, dust_bin, count } = useDustBins();
+
   if (isLoading) return <Spinner />;
-  if (!users.length) return <Empty resourceName="users" />;
+  if (!dust_bin.length) return <Empty resourceName="dust_bin" />;
 
   return (
     <Menus>
-      <Table columns="2.4fr 2fr 0.6fr 2fr 3.2rem">
+      <Table columns="2.4fr 0.6fr 2fr 3.2rem">
         <Table.Header>
-          <div>User</div>
-          <div>Email</div>
-          <div>Active</div>
+          <div>Bin</div>
+          <div>Acive</div>
           <div>Created At</div>
           <div></div>
         </Table.Header>
 
         <Table.Body
-          data={users}
-          render={(user) => (
-            <UserRow key={user.id} booking={user} />
+          data={dust_bin}
+          render={(bin) => (
+            <DustBinRow key={bin.id} booking={bin} />
           )}
         />
 
@@ -39,4 +37,4 @@ function UserTable() {
   );
 }
 
-export default UserTable;
+export default DustBinTable;

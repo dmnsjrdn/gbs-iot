@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import {
-  HiClipboardDocumentList,
+  HiOutlineTrash,
   HiOutlineCog6Tooth,
-  HiMiniChartBar,
-  HiUsers
+  HiPresentationChartBar,
+  HiOutlineUsers
 } from "react-icons/hi2";
 
 const NavList = styled.ul`
@@ -58,13 +58,19 @@ function MainNav() {
       <NavList>
         <li>
           <StyledNavLink to="/dashboard">
-            <HiMiniChartBar />
+            <HiPresentationChartBar />
             <span>Dashboard</span>
           </StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/dust-bins">
+            <HiOutlineTrash />
+            <span>Dust Bins</span>
+          </StyledNavLink>
+        </li>
+        <li>
           <StyledNavLink to="/users">
-            <HiUsers />
+            <HiOutlineUsers />
             <span>Users</span>
           </StyledNavLink>
         </li>

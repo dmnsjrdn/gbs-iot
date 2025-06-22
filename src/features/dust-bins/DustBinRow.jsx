@@ -28,12 +28,10 @@ const Stacked = styled.div`
   }
 `;
 
-function UserRow({
+function DustBinRow({
   booking: {
     id: id,
-    username,
-    email,
-    fullName,
+    name,
     is_active,
     created_at
   },
@@ -48,13 +46,8 @@ function UserRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{username}</Cabin>
+        <Cabin>{name}</Cabin>
         <span>{id}</span>
-      </Stacked>
-
-      <Stacked>
-        <span>{fullName}</span>
-        <span>{email}</span>
       </Stacked>
 
       <Tag type={activeStatus[is_active]}>{is_active.toString()}</Tag>
@@ -67,9 +60,7 @@ function UserRow({
         <Menus.Menu>
           <Menus.Toggle id={id} />
           <Menus.List id={id}>
-            <Menus.Button
-              icon={<HiEye />}
-            >
+            <Menus.Button icon={<HiEye />}>
               See details
             </Menus.Button>
           </Menus.List>
@@ -80,4 +71,4 @@ function UserRow({
   );
 }
 
-export default UserRow;
+export default DustBinRow;
