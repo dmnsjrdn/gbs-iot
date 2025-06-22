@@ -4,6 +4,7 @@ import {
   HiEye,
 } from "react-icons/hi2";
 
+import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
@@ -33,7 +34,7 @@ const Stacked = styled.div`
 function BinLogRow({
   booking: {
     id: id,
-    bin_id,
+    dust_bin: { name },
     value,
     created_at
   },
@@ -43,13 +44,11 @@ function BinLogRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{bin_id}</Cabin>
+        <Cabin>{name}</Cabin>
         <span>{id}</span>
       </Stacked>
 
-      <Stacked>
-        <span>{value}%</span>
-      </Stacked>
+      <Tag type={value > 80 ? "red" : "green"}>{value}%</Tag>
 
       <Stacked>
         <span>

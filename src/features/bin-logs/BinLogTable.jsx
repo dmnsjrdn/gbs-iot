@@ -9,6 +9,7 @@ import Pagination from "../../ui/Pagination";
 
 function BinLogTable({ queryDate }) {
   const { bin_logs, isLoading, count } = useBinLogs({ queryDate });
+
   if (isLoading) return <Spinner />;
   if (!bin_logs.length) return <Empty resourceName="bin_logs" />;
 
@@ -16,16 +17,16 @@ function BinLogTable({ queryDate }) {
     <Menus>
       <Table columns="2.4fr 0.6fr 1.4fr 3.2rem">
         <Table.Header>
-          <div>Bin ID</div>
+          <div>Dust Bin</div>
           <div>Value</div>
-          <div>Created At</div>
+          <div>Timestamp</div>
           <div></div>
         </Table.Header>
 
         <Table.Body
           data={bin_logs}
-          render={(bin) => (
-            <BinLogRow key={bin.id} booking={bin} />
+          render={(log) => (
+            <BinLogRow key={log.id} booking={log} />
           )}
         />
 
