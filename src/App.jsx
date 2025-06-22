@@ -8,15 +8,12 @@ import AppLayout from "./ui/AppLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
-import Bookings from "./pages/Bookings";
 import Users from "./pages/Users";
 import BinLogs from "./pages/BinLogs";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
-import Booking from "./pages/Booking";
-import Checkin from "./pages/Checkin";
 import DustBins from "./pages/DustBins";
 
 const queryClient = new QueryClient({
@@ -49,9 +46,6 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="dust-bins" element={<DustBins />} />
               <Route path="bin-logs" element={<BinLogs />} />
-              <Route path="bookings" element={<Bookings />} />
-              <Route path="bookings/:bookingId" element={<Booking />} />
-              <Route path="checkin/:bookingId" element={<Checkin />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />
             </Route>

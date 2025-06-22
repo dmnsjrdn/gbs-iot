@@ -1,4 +1,4 @@
-import supabase from "./supabase_trash_bin";
+import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
 export async function getBinLogs({ sortBy, page, date }) {
