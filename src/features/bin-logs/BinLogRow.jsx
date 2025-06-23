@@ -32,7 +32,7 @@ const Stacked = styled.div`
 `;
 
 function BinLogRow({
-  booking: {
+  row: {
     id: id,
     dust_bin: { bin },
     value,

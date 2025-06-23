@@ -19,8 +19,10 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
     const { id: editId, ...editValues } = dustBinToEdit;
     const isEditSession = Boolean(editId);
 
-    const [isActive, setIsActive] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState } = useForm({
+    const [isActive, setIsActive] = useState(
+        isEditSession ? editValues.is_active : false
+    );
+    const { register, handleSubmit, reset, formState } = useForm({
         defaultValues: isEditSession ? editValues : {},
     });
     const { errors } = formState;
@@ -71,6 +73,7 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
             <FormRowVertical>
                 <Checkbox
                     id="is_active"
+                    checked={isActive} 
                     disabled={isWorking}
                     onChange={() => setIsActive((active) => !active)}>
                     Is dust bin active?

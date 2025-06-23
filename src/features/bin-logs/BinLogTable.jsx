@@ -26,7 +26,7 @@ function BinLogTable({ queryDate }) {
         <Table.Body
           data={bin_logs}
           render={(log) => (
-            <BinLogRow key={log.id} booking={log} />
+            <BinLogRow key={log.id} row={log} />
           )}
         />
 

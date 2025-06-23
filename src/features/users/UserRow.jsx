@@ -29,7 +29,7 @@ const Stacked = styled.div`
 `;
 
 function UserRow({
-  booking: {
+  row: {
     id: id,
     username,
     email,

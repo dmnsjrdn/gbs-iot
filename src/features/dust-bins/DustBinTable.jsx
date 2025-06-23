@@ -25,7 +25,7 @@ function DustBinTable() {
         <Table.Body
           data={dust_bin}
           render={(bin) => (
-            <DustBinRow key={bin.id} booking={bin} />
+            <DustBinRow key={bin.id} row={bin} />
           )}
         />
 

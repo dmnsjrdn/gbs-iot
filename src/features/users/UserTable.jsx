@@ -27,7 +27,7 @@ function UserTable() {
         <Table.Body
           data={users}
           render={(user) => (
-            <UserRow key={user.id} booking={user} />
+            <UserRow key={user.id} row={user} />
           )}
         />
 

@@ -59,3 +59,15 @@ export async function createEditDustBin(newDustBin, id) {
 
   return data;
 }
+
+
+export async function deleteDustBin(id) {
+  const { data, error } = await supabase.from("dust_bin").delete().eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Dust Bin could not be deleted");
+  }
+
+  return data;
+}
