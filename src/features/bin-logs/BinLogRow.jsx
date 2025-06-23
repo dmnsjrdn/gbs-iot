@@ -34,7 +34,7 @@ const Stacked = styled.div`
 function BinLogRow({
   booking: {
     id: id,
-    dust_bin: { name },
+    dust_bin: { bin },
     value,
     created_at
   },
@@ -44,7 +44,7 @@ function BinLogRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{name}</Cabin>
+        <Cabin>{bin}</Cabin>
         <span>{id}</span>
       </Stacked>
 

@@ -2,6 +2,7 @@ import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import DustBinTable from "../features/dust-bins/DustBinTable";
 import DustBinTableOperations from "../features/dust-bins/DustBinTableOperations";
+import AddDustBin from "../features/dust-bins/AddDustBin";
 
 function DustBins() {
   return (
@@ -10,7 +11,11 @@ function DustBins() {
         <Heading as="h1">Dust Bins</Heading>
         <DustBinTableOperations />
       </Row>
-      <DustBinTable />
+
+      <Row>
+        <DustBinTable />
+        <AddDustBin />
+      </Row>
     </>
   );
 }

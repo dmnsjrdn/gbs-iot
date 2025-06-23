@@ -42,3 +42,20 @@ export async function getDubBinById(id) {
 
   return data;
 }
+
+export async function createEditDustBin(newDustBin, id) {
+  let query = supabase.from("dust_bin");
+
+  if (!id) query = query.insert([{ ...newDustBin }]);
+
+  if (id) query = query.update({ ...newDustBin }).eq("id", id);
+
+  const { data, error } = await query.select().single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Dust Bin could not be created");
+  }
+
+  return data;
+}

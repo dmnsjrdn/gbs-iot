@@ -31,7 +31,7 @@ const Stacked = styled.div`
 function DustBinRow({
   booking: {
     id: id,
-    name,
+    bin,
     is_active,
     created_at
   },
@@ -46,11 +46,11 @@ function DustBinRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{name}</Cabin>
+        <Cabin>{bin}</Cabin>
         <span>{id}</span>
       </Stacked>
 
-      <Tag type={activeStatus[is_active]}>{is_active.toString()}</Tag>
+      <Tag type={activeStatus[is_active]}>{is_active?.toString()}</Tag>
 
       <Stacked>
         {format(new Date(created_at), "PPPPpppp")}

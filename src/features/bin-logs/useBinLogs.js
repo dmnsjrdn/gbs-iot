@@ -7,8 +7,6 @@ export function useBinLogs({ queryDate }) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  console.log('useBinLogs - queryDate', queryDate)
-
   // SORT
   const sortByRaw = searchParams.get("sortBy") || "created_at-desc";
   const [field, direction] = sortByRaw.split("-");

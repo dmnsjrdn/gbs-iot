@@ -57,6 +57,7 @@ function LoginForm() {
     <Form onSubmit={handleSubmit} id="loginForm">
       <FormRowVertical label="Email address" error={formErrors.email}>
         <Input
+          className="field-tc"
           type="text"
           name="email"
           placeholder="Email address"
@@ -67,6 +68,7 @@ function LoginForm() {
       </FormRowVertical>
       <FormRowVertical label="Password" error={formErrors.password}>
         <Input
+          className="field-tc"
           type="password"
           name="password"
           placeholder="Password"
@@ -76,7 +78,7 @@ function LoginForm() {
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button className="loginButton"
+        <Button className="button-login"
           size="large"
           disabled={isSubmit}>
           {!isSubmit ? "Log in" : <SpinnerMini />}
