@@ -5,8 +5,8 @@ import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
-import { useDeleteDustBin } from "./useDeleteDustBin";
-import FormDustBin from "./FormDustBin";
+import { useDeleteBin } from "./useDeleteBin";
+import FormBin from "./FormBin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const Cabin = styled.div`
@@ -31,7 +31,7 @@ const Stacked = styled.div`
   }
 `;
 
-function DustBinRow({ row }) {
+function BinRow({ row }) {
 
   const {
     id: id,
@@ -40,7 +40,7 @@ function DustBinRow({ row }) {
     created_at
   } = row;
 
-  const { isDeleting, deleteDustBin } = useDeleteDustBin();
+  const { isDeleting, deleteBin } = useDeleteBin();
 
   const activeStatus = {
     "true": "green",
@@ -75,14 +75,14 @@ function DustBinRow({ row }) {
           </Menus.List>
 
           <Modal.Window name="edit">
-            <FormDustBin dustBinToEdit={row} />
+            <FormBin binToEdit={row} />
           </Modal.Window>
 
           <Modal.Window name="delete">
             <ConfirmDelete
-              resourceName="dust_bins"
+              resourceName="bins"
               disabled={isDeleting}
-              onConfirm={() => deleteDustBin(id)} />
+              onConfirm={() => deleteBin(id)} />
           </Modal.Window>
 
         </Menus.Menu>
@@ -92,4 +92,4 @@ function DustBinRow({ row }) {
   );
 }
 
-export default DustBinRow;
+export default BinRow;

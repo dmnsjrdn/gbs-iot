@@ -8,15 +8,15 @@ import FormRow from "../../ui/FormRow";
 import FormRowVertical from "../../ui/FormRowVertical"
 import Checkbox from "../../ui/Checkbox";
 
-import { useCreateDustBin } from "./useCreateDustBin";
-import { useEditDustBin } from "./useEditDustBin";
+import { useCreateBin } from "./useCreateBin";
+import { useEditBin } from "./useEditBin";
 
-function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
-    const { isCreating, createDustBin } = useCreateDustBin();
-    const { isEditing, editDistBin } = useEditDustBin();
+function FormBin({ binToEdit = {}, onCloseModal }) {
+    const { isCreating, createBin } = useCreateBin();
+    const { isEditing, editBin } = useEditBin();
     const isWorking = isCreating || isEditing;
 
-    const { id: editId, ...editValues } = dustBinToEdit;
+    const { id: editId, ...editValues } = binToEdit;
     const isEditSession = Boolean(editId);
 
     const [isActive, setIsActive] = useState(
@@ -29,8 +29,8 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
 
     const onSubmit = (data) => {
         if (isEditSession)
-            editDistBin(
-                { newDustBinData: { ...data, is_active: isActive }, id: editId },
+            editBin(
+                { newBinData: { ...data, is_active: isActive }, id: editId },
                 {
                     onSuccess: (data) => {
                         reset();
@@ -39,7 +39,7 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
                 }
             );
         else
-            createDustBin(
+            createBin(
                 { ...data, is_active: isActive },
                 {
                     onSuccess: (data) => {
@@ -59,7 +59,7 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
             onSubmit={handleSubmit(onSubmit, onError)}
             type={onCloseModal ? "modal" : "regular"}>
 
-            <FormRowVertical label="Dust bin" error={errors?.bin?.message}>
+            <FormRowVertical label="Bin" error={errors?.bin?.message}>
                 <Input
                     type="text"
                     id="bin"
@@ -73,10 +73,10 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
             <FormRowVertical>
                 <Checkbox
                     id="is_active"
-                    checked={isActive} 
+                    checked={isActive}
                     disabled={isWorking}
                     onChange={() => setIsActive((active) => !active)}>
-                    Is dust bin active?
+                    Is bin active?
                 </Checkbox>
             </FormRowVertical>
 
@@ -96,4 +96,4 @@ function FormDustBin({ dustBinToEdit = {}, onCloseModal }) {
     );
 }
 
-export default FormDustBin;
+export default FormBin;

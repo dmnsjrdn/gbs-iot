@@ -1,7 +1,7 @@
 import SortBy from "../../ui/SortBy";
 import TableOperations from "../../ui/TableOperations";
 
-function DustBinTableOperations() {
+function BinTableOperations() {
   return (
     <TableOperations>
       <SortBy
@@ -14,4 +14,4 @@ function DustBinTableOperations() {
   );
 }
 
-export default DustBinTableOperations;
+export default BinTableOperations;

@@ -5,7 +5,7 @@ export async function getBinLogs({ sortBy, page, date }) {
   let query = supabase
     .from("bin_log")
     .select(
-      "id, value, created_at, dust_bin(bin)",
+      "id, value, created_at, bin(bin)",
       { count: "exact" }
     );
 

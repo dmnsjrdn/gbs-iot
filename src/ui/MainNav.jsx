@@ -63,9 +63,9 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/dust-bins">
+          <StyledNavLink to="/bins">
             <HiOutlineTrash />
-            <span>Dust Bins</span>
+            <span>Bins</span>
           </StyledNavLink>
         </li>
         <li>

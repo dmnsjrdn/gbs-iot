@@ -34,7 +34,7 @@ const Stacked = styled.div`
 function BinLogRow({
   row: {
     id: id,
-    dust_bin: { bin },
+    bin: { bin },
     value,
     created_at
   },

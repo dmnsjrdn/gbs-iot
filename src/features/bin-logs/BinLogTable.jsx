@@ -17,7 +17,7 @@ function BinLogTable({ queryDate }) {
     <Menus>
       <Table columns="2.4fr 0.6fr 1.4fr 3.2rem">
         <Table.Header>
-          <div>Dust Bin</div>
+          <div>Bin</div>
           <div>Value</div>
           <div>Timestamp</div>
           <div></div>

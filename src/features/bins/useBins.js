@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
-import { getDustBins } from "../../services/apiDustBins";
+import { getBins } from "../../services/apiBins";
 
-export function useDustBins() {
+export function useBins() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -18,11 +18,11 @@ export function useDustBins() {
   // QUERY
   const {
     isLoading,
-    data: { data: dust_bin, count } = {},
+    data: { data: bin, count } = {},
     error,
   } = useQuery({
-    queryKey: ["dust_bin", sortBy, page],
-    queryFn: () => getDustBins({ sortBy, page }),
+    queryKey: ["bin", sortBy, page],
+    queryFn: () => getBins({ sortBy, page }),
   });
 
   // PRE-FETCHING
@@ -30,15 +30,15 @@ export function useDustBins() {
 
   if (page < pageCount)
     queryClient.prefetchQuery({
-      queryKey: ["dust_bin", sortBy, page + 1],
-      queryFn: () => getDustBins({ sortBy, page: page + 1 }),
+      queryKey: ["bin", sortBy, page + 1],
+      queryFn: () => getBins({ sortBy, page: page + 1 }),
     });
 
   if (page > 1)
     queryClient.prefetchQuery({
-      queryKey: ["dust_bin", sortBy, page - 1],
-      queryFn: () => getDustBins({ sortBy, page: page - 1 }),
+      queryKey: ["bin", sortBy, page - 1],
+      queryFn: () => getBins({ sortBy, page: page - 1 }),
     });
 
-  return { isLoading, error, dust_bin, count };
+  return { isLoading, error, bin, count };
 }

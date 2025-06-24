@@ -14,7 +14,7 @@ import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
-import DustBins from "./pages/DustBins";
+import Bins from "./pages/Bins";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,7 +44,7 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="users" element={<Users />} />
-              <Route path="dust-bins" element={<DustBins />} />
+              <Route path="bins" element={<Bins />} />
               <Route path="bin-logs" element={<BinLogs />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />

@@ -1,9 +1,9 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
-export async function getDustBins({ sortBy, page }) {
+export async function getBins({ sortBy, page }) {
   let query = supabase
-    .from("dust_bin")
+    .from("bin")
     .select("*", { count: "exact" });
 
   // SORT
@@ -22,51 +22,51 @@ export async function getDustBins({ sortBy, page }) {
 
   if (error) {
     console.error(error);
-    throw new Error("Dust Bin could not be loaded");
+    throw new Error("Bin could not be loaded");
   }
 
   return { data, count };
 }
 
-export async function getDubBinById(id) {
+export async function getBinById(id) {
   const { data, error } = await supabase
-    .from("dust_bin")
+    .from("bin")
     .select("*")
     .eq("id", id)
     .single();
 
   if (error) {
     console.error(error);
-    throw new Error("Dust Bin not found");
+    throw new Error("Bin not found");
   }
 
   return data;
 }
 
-export async function createEditDustBin(newDustBin, id) {
-  let query = supabase.from("dust_bin");
+export async function createEditBin(newBin, id) {
+  let query = supabase.from("bin");
 
-  if (!id) query = query.insert([{ ...newDustBin }]);
+  if (!id) query = query.insert([{ ...newBin }]);
 
-  if (id) query = query.update({ ...newDustBin }).eq("id", id);
+  if (id) query = query.update({ ...newBin }).eq("id", id);
 
   const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
-    throw new Error("Dust Bin could not be created");
+    throw new Error("Bin could not be created");
   }
 
   return data;
 }
 
 
-export async function deleteDustBin(id) {
-  const { data, error } = await supabase.from("dust_bin").delete().eq("id", id);
+export async function deleteBin(id) {
+  const { data, error } = await supabase.from("bin").delete().eq("id", id);
 
   if (error) {
     console.error(error);
-    throw new Error("Dust Bin could not be deleted");
+    throw new Error("Bin could not be deleted");
   }
 
   return data;

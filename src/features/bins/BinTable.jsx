@@ -3,14 +3,14 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
-import { useDustBins } from "./useDustBins";
-import DustBinRow from "./DustBinRow";
+import { useBins } from "./useBins";
+import BinRow from "./BinRow";
 
-function DustBinTable() {
-  const { isLoading, error, dust_bin, count } = useDustBins();
+function BinTable() {
+  const { isLoading, error, bin, count } = useBins();
 
   if (isLoading) return <Spinner />;
-  if (!dust_bin.length) return <Empty resourceName="dust_bin" />;
+  if (!bin.length) return <Empty resourceName="bin" />;
 
   return (
     <Menus>
@@ -23,9 +23,9 @@ function DustBinTable() {
         </Table.Header>
 
         <Table.Body
-          data={dust_bin}
-          render={(bin) => (
-            <DustBinRow key={bin.id} row={bin} />
+          data={bin}
+          render={(b) => (
+            <BinRow key={b.id} row={b} />
           )}
         />
 
@@ -37,4 +37,4 @@ function DustBinTable() {
   );
 }
 
-export default DustBinTable;
+export default BinTable;
