@@ -6,7 +6,7 @@ import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 
-const Cabin = styled.div`
+const User = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -48,7 +48,7 @@ function UserRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{username}</Cabin>
+        <User>{username}</User>
         <span>{id}</span>
       </Stacked>
 

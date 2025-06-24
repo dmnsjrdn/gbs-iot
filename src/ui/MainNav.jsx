@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {
   HiOutlineTrash,
   HiOutlineCog6Tooth,
-  HiPresentationChartBar,
+  HiOutlineChartBar,
   HiOutlineUsers
 } from "react-icons/hi2";
 
@@ -58,7 +58,7 @@ function MainNav() {
       <NavList>
         <li>
           <StyledNavLink to="/dashboard">
-            <HiPresentationChartBar />
+            <HiOutlineChartBar />
             <span>Dashboard</span>
           </StyledNavLink>
         </li>
@@ -75,9 +75,9 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/settings">
+          <StyledNavLink to="/configurations">
             <HiOutlineCog6Tooth />
-            <span>Settings</span>
+            <span>Configurations</span>
           </StyledNavLink>
         </li>
       </NavList>

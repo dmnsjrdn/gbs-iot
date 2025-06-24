@@ -9,7 +9,7 @@ import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 
-const Cabin = styled.div`
+const BinLog = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -44,7 +44,7 @@ function BinLogRow({
     <Table.Row>
 
       <Stacked>
-        <Cabin>{bin}</Cabin>
+        <BinLog>{bin}</BinLog>
         <span>{id}</span>
       </Stacked>
 

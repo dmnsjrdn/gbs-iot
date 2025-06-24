@@ -9,7 +9,7 @@ import { useDeleteBin } from "./useDeleteBin";
 import FormBin from "./FormBin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
-const Cabin = styled.div`
+const Bin = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -51,7 +51,7 @@ function BinRow({ row }) {
     <Table.Row>
 
       <Stacked>
-        <Cabin>{bin}</Cabin>
+        <Bin>{bin}</Bin>
         <span>{id}</span>
       </Stacked>
 

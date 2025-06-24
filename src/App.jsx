@@ -10,7 +10,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import BinLogs from "./pages/BinLogs";
-import Settings from "./pages/Settings";
+import Configurations from "./pages/Configurations";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
@@ -46,7 +46,7 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="bins" element={<Bins />} />
               <Route path="bin-logs" element={<BinLogs />} />
-              <Route path="settings" element={<Settings />} />
+              <Route path="configurations" element={<Configurations />} />
               <Route path="account" element={<Account />} />
             </Route>
 
