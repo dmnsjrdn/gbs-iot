@@ -63,6 +63,12 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/trash-bin">
+            <HiOutlineTrash />
+            <span>Trash Bin</span>
+          </StyledNavLink>
+        </li>
+        <li>
           <StyledNavLink to="/bins">
             <HiOutlineTrash />
             <span>Bins</span>

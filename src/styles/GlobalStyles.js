@@ -185,6 +185,21 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
+.main-wrapper {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.trash-bin-flex {
+  display: flex;
+  gap: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+
 `;
 
 export default GlobalStyles;
