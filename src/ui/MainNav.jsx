@@ -4,7 +4,8 @@ import {
   HiOutlineTrash,
   HiOutlineCog6Tooth,
   HiOutlineChartBar,
-  HiOutlineUsers
+  HiOutlineUsers,
+  HiOutlineBookOpen
 } from "react-icons/hi2";
 
 const NavList = styled.ul`
@@ -59,13 +60,13 @@ function MainNav() {
         <li>
           <StyledNavLink to="/dashboard">
             <HiOutlineChartBar />
-            <span>Dashboard</span>
+            <span>Dashbord</span>
           </StyledNavLink>
         </li>
-        <li>
-          <StyledNavLink to="/trash-bin">
-            <HiOutlineTrash />
-            <span>Trash Bin</span>
+         <li>
+          <StyledNavLink to="/logs">
+            <HiOutlineBookOpen />
+            <span>Logs</span>
           </StyledNavLink>
         </li>
         <li>

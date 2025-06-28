@@ -15,7 +15,6 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Bins from "./pages/Bins";
-import TrashBinPage from "./pages/TrashBin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,8 +43,8 @@ function App() {
             >
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="logs" element={<BinLogs />} />
               <Route path="users" element={<Users />} />
-              <Route path="trash-bin" element={<TrashBinPage />} />
               <Route path="bins" element={<Bins />} />
               <Route path="bin-logs" element={<BinLogs />} />
               <Route path="configurations" element={<Configurations />} />

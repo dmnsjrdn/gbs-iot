@@ -34,6 +34,24 @@ export async function getBinLogs({ sortBy, page, date }) {
   return { data, count };
 }
 
+export async function getBinLogsTop() {
+  let query = supabase
+    .from("bin_log")
+    .select(
+      "id, value, created_at, bin(bin)",
+      { count: "exact" })
+    .range(0, 4);
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bin Log could not be loaded");
+  }
+
+  return { data, count };
+}
+
 export async function getBinLog(id) {
   const { data, error } = await supabase
     .from("bin_log")
