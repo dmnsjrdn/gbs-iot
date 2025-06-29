@@ -6,12 +6,12 @@ export function useBinLogsTop() {
   // QUERY
   const {
     isLoading,
-    data: { data: bin_logs, count } = {},
+    data: { data: bin_logs } = {},
     error,
   } = useQuery({
     queryKey: ["bin_log"],
     queryFn: () => getBinLogsTop(),
   });
 
-  return { isLoading, error, bin_logs, count };
+  return { isLoading, error, bin_logs };
 }

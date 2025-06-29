@@ -8,7 +8,7 @@ import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 
 function BinLogTopTable({ queryDate }) {
-  const { bin_logs, isLoading, count } = useBinLogsTop({ queryDate });
+  const { bin_logs, isLoading } = useBinLogsTop({ queryDate });
 
   if (isLoading) return <Spinner />;
   if (!bin_logs.length) return <Empty resourceName="bin_logs" />;
@@ -29,10 +29,6 @@ function BinLogTopTable({ queryDate }) {
             <BinLogTopRow key={log.id} row={log} />
           )}
         />
-
-        <Table.Footer>
-          <Pagination count={count} />
-        </Table.Footer>
       </Table>
     </Menus>
   );

@@ -38,19 +38,18 @@ export async function getBinLogsTop() {
   let query = supabase
     .from("bin_log")
     .select(
-      "bin, value, created_at, bin(bin)",
-      { count: "exact" })
+      "bin, value, created_at, bin(bin)")
     .order("created_at", { ascending: false })
     .range(0, 4);
 
-  const { data, error, count } = await query;
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
     throw new Error("Bin Log could not be loaded");
   }
 
-  return { data, count };
+  return { data };
 }
 
 export async function getBinMonitoring() {
