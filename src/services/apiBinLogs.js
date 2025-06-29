@@ -41,7 +41,7 @@ export async function getBinLogsTop() {
       "bin, value, created_at, bin(bin)",
       { count: "exact" })
     .order("created_at", { ascending: false })
-    .limit(5);
+    .range(0, 4);
 
   const { data, error, count } = await query;
 
@@ -84,7 +84,7 @@ export async function getBinLog(id) {
 export async function getBinLogsAfterDate(date) {
   const { data, error } = await supabase
     .from("bin_log")
-    .select("created_at, value")
+    .select("created_at, value, bin(bin)")
     .gte("created_at", date);
 
   if (error) {

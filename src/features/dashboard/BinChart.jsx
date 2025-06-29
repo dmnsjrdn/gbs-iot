@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import { BarChart, Bar, Legend } from "recharts";
 
 const StyledBinChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -32,27 +33,31 @@ function BinChart({ bin_log, numDays }) {
     end: new Date(),
   });
 
-  const data = allDates.map((date) => {
-    let aboveEighty = 0;
-    let belowEighty = 0;
+  const groupedData = {};
 
-    bin_log.forEach((entry) => {
-      if (isSameDay(date, new Date(entry.created_at))) {
-        if (entry.value >= 80) {
-          aboveEighty++;
-        } else {
-          belowEighty++;
-        }
-      }
-    });
+  bin_log.forEach((entry) => {
+    const dateKey = format(new Date(entry.created_at), "yyyy-MM-dd");
+    const binName = entry.bin?.bin;
 
-    return {
-      label: format(date, "MMM dd"),
-      aboveEighty,
-      belowEighty,
-    };
+    if (entry.value >= 80 && binName) {
+      if (!groupedData[dateKey]) groupedData[dateKey] = {};
+      if (!groupedData[dateKey][binName]) groupedData[dateKey][binName] = 0;
+
+      groupedData[dateKey][binName]++;
+    }
   });
 
+  const chartData = Object.entries(groupedData).map(([date, bins]) => ({
+    date: format(new Date(date), "MMM dd"),
+    ...bins,
+  }));
+
+  const allBinNames = new Set();
+  chartData.forEach((item) => {
+    Object.keys(item).forEach((key) => {
+      if (key !== "date") allBinNames.add(key);
+    });
+  });
 
   const colors = isDarkMode
     ? {
@@ -76,35 +81,28 @@ function BinChart({ bin_log, numDays }) {
       </Heading>
 
       <ResponsiveContainer height={300} width="100%">
-        <AreaChart data={data}>
-          <XAxis
-            dataKey="label"
-            tick={{ fill: colors.text }}
-            tickLine={{ stroke: colors.text }}
-          />
+        <BarChart data={chartData}>
+          <XAxis dataKey="date" tick={{ fill: colors.text }} />
           <YAxis
             tick={{ fill: colors.text }}
             tickLine={{ stroke: colors.text }}
+            tickFormatter={(value) => Math.round(value)}
+            allowDecimals={false}
           />
           <CartesianGrid strokeDasharray="4" />
           <Tooltip contentStyle={{ backgroundColor: colors.background }} />
-          <Area
-            dataKey="aboveEighty"
-            type="monotone"
-            stroke={colors.aboveEighty.stroke}
-            fill={colors.aboveEighty.fill}
-            strokeWidth={2}
-            name="Above 80%"
-          />
-          <Area
-            dataKey="belowEighty"
-            type="monotone"
-            stroke={colors.belowEighty.stroke}
-            fill={colors.belowEighty.fill}
-            strokeWidth={2}
-            name="Below 80%"
-          />
-        </AreaChart>
+          <Legend />
+          {[...allBinNames].map((binName, index) => (
+            <Bar
+              key={binName}
+              dataKey={binName}
+              fill={`hsl(${(index * 60) % 360}, 70%, 60%)`}
+              name={binName}
+              stroke="#333"
+              strokeWidth={1}
+            />
+          ))}
+        </BarChart>
       </ResponsiveContainer>
     </StyledBinChart>
   );
