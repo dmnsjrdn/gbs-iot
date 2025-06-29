@@ -15,13 +15,6 @@ const StyledDashboardLayout = styled.div`
   gap: 2.4rem;
 `;
 
-// const StyledDashboardLayout = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr 1fr;
-//   grid-template-rows: auto 34rem auto;
-//   gap: 2.4rem;
-// `;
-
 const DashboardLayout = () => {
   const [searchParams] = useSearchParams();
 
@@ -36,7 +29,7 @@ const DashboardLayout = () => {
   return (
     <StyledDashboardLayout>
       <Row type="horizontal">
-        <Heading as="h1">Trash Bin Monitoring</Heading>
+        <Heading as="h1">Monitoring</Heading>
       </Row>
       <TrashBinLayout />
       <Row type="horizontal">
@@ -44,6 +37,9 @@ const DashboardLayout = () => {
         <DashboardFilter />
       </Row>
       <BinChart bin_log={bin_log} numDays={numDays} />
+      <Row type="horizontal">
+        <Heading as="h1">Latest 5 logs</Heading>
+      </Row>
       <BinLogTopTable />
     </StyledDashboardLayout>
   );

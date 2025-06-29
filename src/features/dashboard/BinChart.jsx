@@ -15,6 +15,7 @@ import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 const StyledBinChart = styled(DashboardBox)`
   grid-column: 1 / -1;
+  border: 1px solid #e5e7eb;
 
   /* Hack to change grid line colors */
   & .recharts-cartesian-grid-horizontal line,
