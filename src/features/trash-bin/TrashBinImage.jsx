@@ -3,7 +3,7 @@ import "../../styles/TrashBinImage.css";
 const TrashBinImage = ({ name, level }) => {
     return (
         <div className="trash-bin">
-            <div className="fill-overlay" style={{ height: `${level}%` }}></div>
+            <div className={level > 80 ? "fill-overlay" : "fill-overlay-below" } style={{ height: `${level}%` }}></div>
             <img
                 src="/empty-trash-can.png"
                 alt="Trash Bin"

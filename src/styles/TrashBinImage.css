@@ -25,6 +25,17 @@
     border-radius: 6px;
 }
 
+.fill-overlay-below {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(33, 197, 7, 0.4);
+    z-index: 1;
+    transition: height 0.3s ease;
+    border-radius: 6px;
+}
+
 .level-label {
     /* position: absolute; */
     bottom: -20px;

@@ -5,7 +5,7 @@ export async function getBinLogs({ sortBy, page, date }) {
   let query = supabase
     .from("bin_log")
     .select(
-      "id, value, created_at, bin(bin)",
+      "bin, value, created_at, bin(bin)",
       { count: "exact" }
     );
 
@@ -38,7 +38,7 @@ export async function getBinLogsTop() {
   let query = supabase
     .from("bin_log")
     .select(
-      "id, value, created_at, bin(bin)",
+      "bin, value, created_at, bin(bin)",
       { count: "exact" })
     .order("created_at", { ascending: false })
     .limit(5);
@@ -56,7 +56,7 @@ export async function getBinLogsTop() {
 export async function getBinMonitoring() {
   const { data, error } = await supabase
     .rpc("get_latest_bin_logs")
-    .select("log_id, bin_id, bin, value");
+    .select("log_id, bin, value");
 
   if (error) {
     console.error(error);

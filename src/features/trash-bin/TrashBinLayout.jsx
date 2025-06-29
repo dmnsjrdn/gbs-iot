@@ -5,6 +5,7 @@ import TrashBinImage from "../trash-bin/TrashBinImage";
 import { useBinMonitoring } from "./useBinMonitoring";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
+import Heading from "../../ui/Heading";
 
 const StyledBookingDataBox = styled.section`
   /* Box */
@@ -69,12 +70,14 @@ const TrashBinLayout = () => {
         <Header>
           <div>
             <HiOutlineTrash />
-            <p>Real-time updates</p>
+            <Heading as="h2">
+              Real-time updates
+            </Heading>
           </div>
 
-          <p>
+          <Heading as="h2">
             Data as of <strong>{format(new Date(), "EEE, MMM dd yyyy")}</strong>
-          </p>
+          </Heading>
         </Header>
 
         <Section>

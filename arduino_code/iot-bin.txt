@@ -1,0 +1,264 @@
+#include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+#include <TinyGPS++.h>  // GPS Library
+
+// JORDAN: include libraries
+#include <WiFi.h>
+#include <HTTPClient.h>
+
+// Serial Interfaces
+SoftwareSerial mySerial(D3, D4);  // SIM900A: RX, TX
+// GPS is using hardware Serial (connected to RX/TX)
+
+// LCD
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// GPS Object
+TinyGPSPlus gps;
+
+// Ultrasonic Sensor 1
+const int trigPin1 = D6;
+const int echoPin1 = D5;
+
+// Ultrasonic Sensor 2
+const int trigPin2 = D7;
+const int echoPin2 = D8;
+
+// LED Indicator
+const int led = D0;
+
+// WiFi & IFTTT
+const char* ssid = "TP-Link_E2EC";
+const char* password = "62391535";
+const char* host = "maker.ifttt.com";
+const char* privateKey = "hUAAAz0AVvc6-NW1UmqWXXv6VQWmpiGFxx3sV5rnaM9";
+
+// JORDAN: API Configuration
+const char* apiUrlPath = "https://vrqncbztporodhozcfcg.supabase.co/rest/v1/bin_log";
+const char* apiKeyToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZycW5jYnp0cG9yb2Rob3pjZmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1MTI1NjksImV4cCI6MjA2MjA4ODU2OX0.VlF8OHvo7S1iYa9jDmQours_GcQ8qDZCt_4PeEUdhyI";
+
+WiFiServer server(80);
+
+// Sensor Readings
+long duration1, duration2;
+int distance1, distance2;
+float level1, level2;
+bool messageSent = false;
+
+void setup() {
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+  pinMode(led, OUTPUT);
+
+  Serial.begin(9600);    // GPS uses hardware Serial
+  mySerial.begin(9600);  // SIM900A
+
+  Wire.begin(D2, D1);  // LCD I2C on ESP8266
+  lcd.begin(16, 2);
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print(" IOT Monitoring ");
+  lcd.setCursor(0, 1);
+  lcd.print("System");
+  delay(3000);
+  lcd.clear();
+
+  Serial.print("Connecting to WiFi Network: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.println("Successfully connected to WiFi.");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  server.begin();
+  Serial.println("Server started");
+}
+
+void loop() {
+  while (Serial.available()) {
+    gps.encode(Serial.read());
+  }
+
+  // Sensor 1
+  digitalWrite(trigPin1, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin1, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin1, LOW);
+  duration1 = pulseIn(echoPin1, HIGH, 30000);  // Timeout after 30ms
+  distance1 = duration1 * 0.0343 / 2;
+
+  if (distance1 > 1 && distance1 <= 25) {
+    level1 = ((25 - distance1) / 25.0) * 100.0;
+  } else {
+    level1 = 0;  // or keep previous reading if desired
+  }
+
+  // Sensor 2
+  delay(100);
+  digitalWrite(trigPin2, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin2, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin2, LOW);
+  duration2 = pulseIn(echoPin2, HIGH, 30000);  // Timeout after 30ms
+  distance2 = duration2 * 0.0343 / 2;
+
+  if (distance2 > 1 && distance2 <= 25) {
+    level2 = ((25 - distance2) / 25.0) * 100.0;
+  } else {
+    level2 = 0;
+  }
+
+  lcd.setCursor(0, 0);
+  lcd.print("B1:");
+  lcd.print(level1, 0);
+  lcd.print("%   ");
+
+  lcd.setCursor(0, 1);
+  lcd.print("B2:");
+  lcd.print(level2, 0);
+  lcd.print("%   ");
+
+  digitalWrite(led, (level1 >= 80 || level2 >= 80) ? HIGH : LOW);
+
+  if ((level1 >= 80 || level2 >= 80) && !messageSent) {
+    SendMessage();
+    send_event("jar_event");
+
+    // JORDAN: send the request to the API
+    sendApiPostRequest(level1);
+    sendApiPostRequest(level2);
+
+    messageSent = true;
+  }
+
+  if (level1 < 80 && level2 < 80) {
+
+    // JORDAN: send the request to the API
+    sendApiPostRequest(level1);
+    sendApiPostRequest(level2);
+
+    messageSent = false;
+  }
+
+  WiFiClient client = server.available();
+  if (client) {
+    client.println("HTTP/1.1 200 OK");
+    client.println("Content-type: text/html");
+    client.println("Connection: close");
+    client.println("Refresh: 5");
+    client.println();
+
+    client.println("<!DOCTYPE HTML><html><head><title>Smart Dustbin</title>");
+    client.println("<style>body { font-family: Arial; text-align: center; background: #f3fefe; }");
+    client.println(".level { font-size: 24px; color: #3498db; }</style></head><body>");
+    client.println("<h1>Dustbin Fill Levels</h1>");
+    client.println("<div class='level'>Dustbin 1: " + String(level1, 1) + "%</div>");
+    client.println("<div class='level'>Dustbin 2: " + String(level2, 1) + "%</div>");
+    client.println("</body></html>");
+  }
+
+  delay(1000);
+}
+
+void send_event(const char* event) {
+  Serial.print("Connecting to ");
+  Serial.println(host);
+
+  WiFiClient client;
+  const int httpPort = 80;
+  if (!client.connect(host, httpPort)) {
+    Serial.println("Connection failed");
+    return;
+  }
+
+  String url = String("/trigger/") + event + "/with/key/" + privateKey;
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
+
+  while (client.connected()) {
+    while (client.available()) {
+      String line = client.readStringUntil('\r');
+      Serial.print(line);
+    }
+    delay(50);
+  }
+
+  Serial.println("\nClosing connection");
+  client.stop();
+}
+
+void SendMessage() {
+  Serial.println("Sending SMS: Dustbin Full");
+
+  String message = "PTC Alert: Bin full! ";
+
+  if (gps.location.isValid()) {
+    float lat = gps.location.lat();
+    float lng = gps.location.lng();
+    message += "Location: https://maps.google.com/?q=" + String(lat, 6) + "," + String(lng, 6);
+  } else {
+    message += "Location: GPS unavailable.";
+  }
+
+  mySerial.println("AT+CMGF=1");
+  delay(1000);
+  mySerial.println("AT+CMGS=\"+639273328890\"");  // Replace with actual number
+  delay(1000);
+  mySerial.println(message);
+  delay(100);
+  mySerial.write(26);  // Ctrl+Z to send
+  delay(1000);
+}
+
+// JORDAN: use this function to send request to API
+void sendApiPostRequest(float level, String binName) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(apiUrlPath);
+
+    http.addHeader("Content-Type", "application/json");
+    http.addHeader("apikey", apiKeyToken);
+    http.addHeader("Authorization", String("Bearer ") + apiKeyToken);
+
+    // Construct JSON body
+    String jsonPayload = "{";
+    jsonPayload += "\"bin\": \"" + binName + "\",";
+    jsonPayload += "\"value\": \"" + String((int)level) + "\"";
+    jsonPayload += "}";
+
+    Serial.println("Sending POST to Supabase:");
+    Serial.println(jsonPayload);
+
+    int httpCode = http.POST(jsonPayload);
+
+    if (httpCode > 0) {
+      String response = http.getString();
+      Serial.print("HTTP ");
+      Serial.print(httpCode);
+      Serial.print(": ");
+      Serial.println(response);
+    } else {
+      Serial.print("POST failed: ");
+      Serial.println(http.errorToString(httpCode).c_str());
+    }
+
+    http.end();
+  } else {
+    Serial.println("WiFi not connected. Skipping API POST.");
+  }
+}
