@@ -25,7 +25,7 @@ function BinTable() {
         <Table.Body
           data={bin}
           render={(b) => (
-            <BinRow key={b.id} row={b} />
+            <BinRow key={b.bin} row={b} />
           )}
         />
 

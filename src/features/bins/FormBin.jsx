@@ -16,8 +16,8 @@ function FormBin({ binToEdit = {}, onCloseModal }) {
     const { isEditing, editBin } = useEditBin();
     const isWorking = isCreating || isEditing;
 
-    const { id: editId, ...editValues } = binToEdit;
-    const isEditSession = Boolean(editId);
+    const { ...editValues } = binToEdit;
+    const isEditSession = Boolean(Object.keys(editValues).length > 0);
 
     const [isActive, setIsActive] = useState(
         isEditSession ? editValues.is_active : false
@@ -30,7 +30,7 @@ function FormBin({ binToEdit = {}, onCloseModal }) {
     const onSubmit = (data) => {
         if (isEditSession)
             editBin(
-                { newBinData: { ...data, is_active: isActive }, id: editId },
+                { newBinData: { ...data, is_active: isActive }, id: editValues.bin },
                 {
                     onSuccess: (data) => {
                         reset();

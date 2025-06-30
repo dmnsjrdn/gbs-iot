@@ -32,7 +32,7 @@ export async function getBinById(id) {
   const { data, error } = await supabase
     .from("bin")
     .select("*")
-    .eq("id", id)
+    .eq("bin", id)
     .single();
 
   if (error) {
@@ -48,7 +48,7 @@ export async function createEditBin(newBin, id) {
 
   if (!id) query = query.insert([{ ...newBin }]);
 
-  if (id) query = query.update({ ...newBin }).eq("id", id);
+  if (id) query = query.update({ ...newBin }).eq("bin", id);
 
   const { data, error } = await query.select().single();
 
@@ -62,7 +62,7 @@ export async function createEditBin(newBin, id) {
 
 
 export async function deleteBin(id) {
-  const { data, error } = await supabase.from("bin").delete().eq("id", id);
+  const { data, error } = await supabase.from("bin").delete().eq("bin", id);
 
   if (error) {
     console.error(error);

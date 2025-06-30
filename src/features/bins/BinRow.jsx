@@ -34,7 +34,6 @@ const Stacked = styled.div`
 function BinRow({ row }) {
 
   const {
-    id: id,
     bin,
     is_active,
     created_at
@@ -52,7 +51,6 @@ function BinRow({ row }) {
 
       <Stacked>
         <Bin>{bin}</Bin>
-        <span>{id}</span>
       </Stacked>
 
       <Tag type={activeStatus[is_active]}>{is_active?.toString()}</Tag>
@@ -63,8 +61,8 @@ function BinRow({ row }) {
 
       <Modal>
         <Menus.Menu>
-          <Menus.Toggle id={id} />
-          <Menus.List id={id}>
+          <Menus.Toggle id={bin} />
+          <Menus.List id={bin}>
             <Modal.Open opens="edit">
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             </Modal.Open>
@@ -82,7 +80,7 @@ function BinRow({ row }) {
             <ConfirmDelete
               resourceName="bins"
               disabled={isDeleting}
-              onConfirm={() => deleteBin(id)} />
+              onConfirm={() => deleteBin(bin)} />
           </Modal.Window>
 
         </Menus.Menu>
