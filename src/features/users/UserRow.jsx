@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { format } from "date-fns";
-import { HiEye } from "react-icons/hi2";
+import { HiPencil } from "react-icons/hi2";
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
+import FormUser from "../users/FormUser";
 
 const User = styled.div`
   font-size: 1.6rem;
@@ -28,16 +29,16 @@ const Stacked = styled.div`
   }
 `;
 
-function UserRow({
-  row: {
+function UserRow({ row }) {
+
+  const {
     id: id,
     username,
     email,
     fullName,
     is_active,
     created_at
-  },
-}) {
+  } = row;
 
   const activeStatus = {
     "true": "green",
@@ -67,12 +68,14 @@ function UserRow({
         <Menus.Menu>
           <Menus.Toggle id={id} />
           <Menus.List id={id}>
-            <Menus.Button
-              icon={<HiEye />}
-            >
-              See details
-            </Menus.Button>
+            <Modal.Open opens="edit">
+              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            </Modal.Open>
           </Menus.List>
+
+          <Modal.Window name="edit">
+            <FormUser userToEdit={row} />
+          </Modal.Window>
         </Menus.Menu>
       </Modal>
 
