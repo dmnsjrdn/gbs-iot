@@ -6,6 +6,8 @@ import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 import FormUser from "../users/FormUser";
+import { getCurrentUser } from "../../services/apiAuth";
+import { useEffect, useState } from "react";
 
 const User = styled.div`
   font-size: 1.6rem;
@@ -30,6 +32,16 @@ const Stacked = styled.div`
 `;
 
 function UserRow({ row }) {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await getCurrentUser();
+      setCurrentUser(user);
+    }
+
+    fetchUser();
+  }, []);
 
   const {
     id: id,
@@ -67,17 +79,19 @@ function UserRow({ row }) {
       <Modal>
         <Menus.Menu>
           <Menus.Toggle id={id} />
-          <Menus.List id={id}>
-            <Modal.Open opens="edit">
-              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-            </Modal.Open>
-          </Menus.List>
-
+          {currentUser?.id !== id && (
+            <Menus.List id={id}>
+              <Modal.Open opens="edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+          )}
           <Modal.Window name="edit">
             <FormUser userToEdit={row} />
           </Modal.Window>
         </Menus.Menu>
       </Modal>
+
 
     </Table.Row>
   );
