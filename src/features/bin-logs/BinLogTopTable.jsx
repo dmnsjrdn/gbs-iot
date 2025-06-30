@@ -15,12 +15,11 @@ function BinLogTopTable({ queryDate }) {
 
   return (
     <Menus>
-      <Table columns="2.4fr 0.6fr 1.4fr 3.2rem">
+      <Table columns="2.4fr 0.6fr 1.4fr">
         <Table.Header>
           <div>Bin</div>
           <div>Value</div>
           <div>Timestamp</div>
-          <div></div>
         </Table.Header>
 
         <Table.Body

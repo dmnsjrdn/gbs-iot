@@ -5,3 +5,4 @@ dist
 .firebaserc
 firebase.json
 .firebase
+arduino_code

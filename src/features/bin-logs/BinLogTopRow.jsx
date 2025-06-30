@@ -55,20 +55,7 @@ function BinLogTopRow({
           {format(new Date(created_at), "PPPPpppp")}
         </span>
       </Stacked>
-
-      <Modal>
-        <Menus.Menu>
-          <Menus.Toggle id={id} />
-          <Menus.List id={id}>
-            <Menus.Button
-              icon={<HiEye />}
-            >
-              See details
-            </Menus.Button>
-          </Menus.List>
-        </Menus.Menu>
-
-      </Modal>
+      
     </Table.Row>
   );
 }
