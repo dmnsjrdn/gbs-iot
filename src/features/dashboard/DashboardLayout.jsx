@@ -9,6 +9,8 @@ import TrashBinLayout from "../trash-bin/TrashBinLayout";
 import DashboardFilter from "./DashboardFilter";
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
+import Button from "../../ui/Button";
+import { downloadBinLogsAsPDF } from "../../services/apiBinLogs";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -39,6 +41,7 @@ const DashboardLayout = () => {
       <BinChart bin_log={bin_log} numDays={numDays} />
       <Row type="horizontal">
         <Heading as="h1">Latest 5 logs</Heading>
+        <Button onClick={downloadBinLogsAsPDF}>Download PDF</Button>
       </Row>
       <BinLogTopTable />
     </StyledDashboardLayout>

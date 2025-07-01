@@ -1,5 +1,36 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+export async function downloadBinLogsAsPDF() {
+  const { data, error } = await supabase
+    .from("bin_log")
+    .select("id, value, created_at, bin(bin)");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not fetch data for PDF export");
+  }
+
+  const doc = new jsPDF();
+  doc.setFontSize(18);
+  doc.text("Bin Logs Report", 14, 20);
+
+  autoTable(doc, {
+    startY: 30,
+    head: [["ID", "Bin", "Value", "Timestamp"]],
+    body: data.map((row) => [
+      row.id,
+      row.bin?.bin ?? "N/A",
+      row.value + "%",
+      new Date(row.created_at).toLocaleString(),
+    ]),
+    styles: { fontSize: 10 },
+  });
+
+  doc.save(`bin_logs_${new Date().toISOString()}.pdf`);
+}
 
 export async function getBinLogs({ sortBy, page, date }) {
   let query = supabase
