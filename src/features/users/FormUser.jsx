@@ -13,7 +13,6 @@ function FormUser({ userToEdit = {}, onCloseModal }) {
     const isEditSession = Boolean(Object.keys(userToEdit).length);
 
     const [isActive, setIsActive] = useState(userToEdit?.is_active ?? true);
-    const [photoImage, setPhotoImage] = useState(userToEdit?.photo_image ?? "");
 
     const { register, handleSubmit, reset, formState } = useForm({
         defaultValues: isEditSession ? userToEdit : {},
@@ -26,7 +25,7 @@ function FormUser({ userToEdit = {}, onCloseModal }) {
     const isWorking = isCreating || isEditing;
 
     const onSubmit = (data) => {
-        const userData = { ...data, is_active: isActive, photo_image: photoImage };
+        const userData = { ...data, is_active: isActive };
 
         if (isEditSession) {
             editUser(
@@ -70,16 +69,6 @@ function FormUser({ userToEdit = {}, onCloseModal }) {
                     id="email"
                     disabled={isWorking}
                     {...register("email", { required: "This field is required" })}
-                />
-            </FormRowVertical>
-
-            <FormRowVertical label="Photo URL">
-                <Input
-                    type="text"
-                    id="photo_image"
-                    disabled={isWorking}
-                    value={photoImage}
-                    onChange={(e) => setPhotoImage(e.target.value)}
                 />
             </FormRowVertical>
 
