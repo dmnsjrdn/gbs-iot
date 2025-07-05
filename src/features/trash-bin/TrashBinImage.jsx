@@ -1,4 +1,4 @@
-import "../../styles/TrashBinImage.css";
+import "../../styles/TrashBinStyles.css";
 
 const TrashBinImage = ({ name, level }) => {
     return (

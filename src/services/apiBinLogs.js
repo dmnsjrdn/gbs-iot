@@ -3,14 +3,10 @@ import { PAGE_SIZE } from "../utils/constants";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export async function downloadBinLogsAsPDF() {
-  const { data, error } = await supabase
-    .from("bin_log")
-    .select("id, value, created_at, bin(bin)");
-
-  if (error) {
-    console.error(error);
-    throw new Error("Could not fetch data for PDF export");
+export async function downloadBinLogsAsPDF(binLogs) {
+  if (!binLogs || binLogs.length === 0) {
+    console.warn("No bin logs provided.");
+    return;
   }
 
   const doc = new jsPDF();
@@ -20,9 +16,9 @@ export async function downloadBinLogsAsPDF() {
   autoTable(doc, {
     startY: 30,
     head: [["ID", "Bin", "Value", "Timestamp"]],
-    body: data.map((row) => [
+    body: binLogs.map((row) => [
       row.id,
-      row.bin?.bin ?? "N/A",
+      row.bin?.bin ?? row.bin ?? "N/A", // fallback for nested bin or plain
       row.value + "%",
       new Date(row.created_at).toLocaleString(),
     ]),

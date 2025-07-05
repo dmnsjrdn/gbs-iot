@@ -41,7 +41,7 @@ const DashboardLayout = () => {
       <BinChart bin_log={bin_log} numDays={numDays} />
       <Row type="horizontal">
         <Heading as="h1">Latest 5 logs</Heading>
-        <Button onClick={downloadBinLogsAsPDF}>Download PDF</Button>
+        <Button onClick={() => downloadBinLogsAsPDF(bin_log)}>Download PDF</Button>
       </Row>
       <BinLogTopTable />
     </StyledDashboardLayout>
