@@ -2,8 +2,6 @@ import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
 import {
-  Area,
-  AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -17,12 +15,6 @@ import { BarChart, Bar, Legend } from "recharts";
 const StyledBinChart = styled(DashboardBox)`
   grid-column: 1 / -1;
   border: 1px solid #e5e7eb;
-
-  /* Hack to change grid line colors */
-  & .recharts-cartesian-grid-horizontal line,
-  & .recharts-cartesian-grid-vertical line {
-    stroke: var(--color-grey-300);
-  }
 `;
 
 function BinChart({ bin_log, numDays }) {
@@ -61,14 +53,14 @@ function BinChart({ bin_log, numDays }) {
 
   const colors = isDarkMode
     ? {
-      aboveEighty: { stroke: "#4f46e5", fill: "#4f46e5" },
-      belowEighty: { stroke: "#22c55e", fill: "#22c55e" },
+      aboveEighty: { stroke: "#rgba(33, 197, 7, 0.4)", fill: "#rgba(33, 197, 7, 0.4)" },
+      belowEighty: { stroke: "#rgba(220, 38, 38, 0.4)", fill: "#rgba(220, 38, 38, 0.4)" },
       text: "#e5e7eb",
       background: "#18212f",
     }
     : {
-      aboveEighty: { stroke: "#4f46e5", fill: "#c7d2fe" },
-      belowEighty: { stroke: "#16a34a", fill: "#dcfce7" },
+      aboveEighty: { stroke: "#rgba(33, 197, 7, 0.4)", fill: "#rgba(33, 197, 7, 0.4)" },
+      belowEighty: { stroke: "#rgba(220, 38, 38, 0.4)", fill: "#rgba(220, 38, 38, 0.4)" },
       text: "#374151",
       background: "#fff",
     };
@@ -96,7 +88,7 @@ function BinChart({ bin_log, numDays }) {
             <Bar
               key={binName}
               dataKey={binName}
-              fill={`hsl(${(index * 60) % 360}, 70%, 60%)`}
+              fill={`hsla(${(index * 60) % 360}, 70%, 60%, 0.5)`}
               name={binName}
               stroke="#333"
               strokeWidth={1}
