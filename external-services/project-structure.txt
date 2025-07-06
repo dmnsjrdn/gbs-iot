@@ -1,0 +1,147 @@
+public/
+│   └── default-user.jpg
+│   └── empty-trash-can-png
+│   └── logo-ptc.png
+│   └── school-bg.jpg
+│   └── vite.svg
+src/
+├──context/
+│   └── DarkModeContext.jsx
+├── features/
+│   └── authentication
+│       └── LoginForm.jsx
+│       └── Logout.jsx
+│       └── SignupForm.jsx
+│       └── UpdatePasswordForm.jsx
+│       └── UpdateUserDataForm.jsx
+│       └── useLogin.js
+│       └── useLogout.js
+│       └── UserAvatar.jsx
+│       └── useSignup.js
+│       └── useUpdateUser.js
+│       └── useUser.js
+│   └── bin-logs
+│       └── BinLogRow.jsx
+│       └── BinLogTable.jsx
+│       └── BinLogTableOperations.jsx
+│       └── BinLogTopRow.jsx
+│       └── BinLogTopTable.jsx
+│       └── BinLogTopTableOperations.jsx
+│       └── useBinLogs.js
+│       └── useBinLogsTop.js
+│   └── bins
+│       └── AddBin.jsx
+│       └── BinRow.jsx
+│       └── BinTable.jsx
+│       └── BinTableOperations.jsx
+│       └── FormBin.jsx
+│       └── useBins.js
+│       └── useCreateBin.js
+│       └── useDeleteBin.js
+│       └── useEditBin.js
+│   └── configurations
+│       └── AppConfigRow.jsx
+│       └── AppConfigTable.jsx
+│       └── FormAppConfig.jsx
+│       └── useConfigurations.js
+│       └── useEditConfiguration.js
+│   └── dashboard
+│       └── BinChart.jsx
+│       └── DashboardBox.jsx
+│       └── DashboardFilter.jsx
+│       └── DashboardLayout.jsx
+│       └── useRecentBinLogs.js
+│   └── trash-bin
+│       └── TrashBinImage.jsx
+│       └── TrashBinLayout.jsx
+│       └── useBinMonitoring.js
+│   └── users
+│       └── AddUser.jsx
+│       └── FormUser.jsx
+│       └── useCreateUser.js
+│       └── useDeleteUser.js
+│       └── useEditUser.js
+│       └── UserRow.jsx
+│       └── UserTable.jsx
+│       └── UserTableOperations.jsx
+│       └── useUsers.js
+├── hooks/
+│   └── useLocalStorageState.js
+│   └── useMoveBack.js
+│   └── useOutsideClick.js
+├── pages/
+│   └── Account.jsx
+│   └── BinLogs.jsx
+│   └── Bins.jsx
+│   └── Configurations.jsx
+│   └── Dashboard.jsx
+│   └── Login.jsx
+│   └── PageNotFound.jsx
+│   └── Users.jsx
+├── services/
+│   └── apiAuth.js
+│   └── apiBinLogs.js
+│   └── apiBins.js
+│   └── apiConfigurations.js
+│   └── apiRoles.js
+│   └── apiUsers.js
+│   └── supabase.js
+│   └── supabaseAdmin.js
+├── styles/
+│   └── GlobalStyles.js
+│   └── LoginStyles.css
+│   └── TrashBinStyles.css
+├── ui/
+│   └── AppLayout.jsx
+│   └── Button.jsx
+│   └── ButtonGroup.jsx
+│   └── ButtonIcon.jsx
+│   └── ButtonText.jsx
+│   └── Checkbox.jsx
+│   └── ConfirmDelete.jsx
+│   └── DarkModeToggle.jsx
+│   └── DataItem.jsx
+│   └── Empty.jsx
+│   └── ErrorFallBack.jsx
+│   └── FileInput.jsx
+│   └── Filter.jsx
+│   └── Flag.jsx
+│   └── Form.jsx
+│   └── FormRow.jsx
+│   └── FormRowVertical.jsx
+│   └── Header.jsx
+│   └── HeaderMenu.jsx
+│   └── Heading.jsx
+│   └── Input.jsx
+│   └── Logo.jsx
+│   └── MainNav.jsx
+│   └── Menus.jsx
+│   └── Modal-v1.jsx
+│   └── Modal.jsx
+│   └── Pagination.jsx
+│   └── ProtectedRoute.jsx
+│   └── Row.jsx
+│   └── Select.jsx
+│   └── Sidebar.jsx
+│   └── SortBy.jsx
+│   └── Spinner.jsx
+│   └── SpinnerMini.jsx
+│   └── Table.jsx
+│   └── TableOperations.jsx
+│   └── Tag.jsx
+│   └── Textarea.jsx
+├── utils/
+│   └── constant.js
+│   └── helpers.js
+├── App.jsx
+├── main.jsx
+supabase/
+│   └── scripts.txt
+.env
+.gitignore
+index.html
+package-lock.json
+package.json
+README.md
+vercel.json
+vite.config.js
