@@ -1,0 +1,21 @@
+! Resend
+* Free Tier
+	> Monthly Limit 3000
+	> Daily Limit 100
+
+! Supabase
+* Free Tier
+	> Database Size 0.5GB
+	> Realtime Concurrent Peak Connections 200
+	> Storage Size 1GB
+	> Monthly Active User 50000
+	> Egress/Bandwidth 5GB
+	> Realtime Messages 2000000
+	> Monthly Active Third-Party Users 50000
+
+! Firebase (Hosting)
+* Free Tier (Spark)
+	> Storage 10GB
+	> Data Transfer 360MB/Day
+	> Custom domain & SSL
+	> Multiple sites per project
