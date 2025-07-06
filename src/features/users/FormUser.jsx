@@ -52,8 +52,7 @@ function FormUser({ userToEdit = {}, onCloseModal }) {
     return (
         <Form
             onSubmit={handleSubmit(onSubmit, onError)}
-            type={onCloseModal ? "modal" : "regular"}
-        >
+            type={onCloseModal ? "modal" : "regular"}>
             <FormRowVertical label="Username" error={errors?.username?.message}>
                 <Input
                     type="text"
@@ -67,7 +66,7 @@ function FormUser({ userToEdit = {}, onCloseModal }) {
                 <Input
                     type="email"
                     id="email"
-                    disabled={isWorking}
+                    disabled={isEditSession}
                     {...register("email", { required: "This field is required" })}
                 />
             </FormRowVertical>

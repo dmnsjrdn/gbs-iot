@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { format } from "date-fns";
-import { HiPencil } from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
@@ -8,6 +8,8 @@ import Menus from "../../ui/Menus";
 import FormUser from "../users/FormUser";
 import { getCurrentUser } from "../../services/apiAuth";
 import { useEffect, useState } from "react";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteUser } from "./useDeleteUser";
 
 const User = styled.div`
   font-size: 1.6rem;
@@ -52,6 +54,8 @@ function UserRow({ row }) {
     created_at
   } = row;
 
+  const { isDeleting, deleteUser } = useDeleteUser();
+
   const activeStatus = {
     "true": "green",
     "false": "silver",
@@ -84,10 +88,19 @@ function UserRow({ row }) {
               <Modal.Open opens="edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.Open>
+              <Modal.Open opens="delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
             </Menus.List>
           )}
           <Modal.Window name="edit">
             <FormUser userToEdit={row} />
+          </Modal.Window>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="users"
+              disabled={isDeleting}
+              onConfirm={() => deleteUser(id)} />
           </Modal.Window>
         </Menus.Menu>
       </Modal>

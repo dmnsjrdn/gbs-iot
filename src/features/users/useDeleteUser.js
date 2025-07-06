@@ -1,21 +1,21 @@
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { toast } from "react-hot-toast";
-// import { deleteBin as deleteBinApi } from "../../services/apiBins";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { deleteUser } from "../../services/apiUsers";
 
-// export function useDeleteUser() {
-//   const queryClient = useQueryClient();
+export function useDeleteUser() {
+  const queryClient = useQueryClient();
 
-//   const { isLoading: isDeleting, mutate: deleteBin } = useMutation({
-//     mutationFn: deleteBinApi,
-//     onSuccess: () => {
-//       toast.success("Bin successfully deleted");
+  const { mutate: deleteUserMutate, isLoading: isDeleting } = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      toast.success("User successfully deleted");
+      queryClient.invalidateQueries({ queryKey: ["user_extension"] });
+    },
+    onError: (err) => {
+      console.error("Delete error:", err);
+      toast.error("Failed to delete user");
+    },
+  });
 
-//       queryClient.invalidateQueries({
-//         queryKey: ["bin"],
-//       });
-//     },
-//     onError: (err) => toast.error(err.message),
-//   });
-
-//   return { isDeleting, deleteBin };
-// }
+  return { deleteUser: deleteUserMutate, isDeleting };
+}

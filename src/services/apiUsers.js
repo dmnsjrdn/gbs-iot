@@ -1,4 +1,5 @@
 import supabase from "./supabase";
+import supabaseAdmin from './supabaseAdmin';
 import { PAGE_SIZE } from "../utils/constants";
 
 export async function getUsers({ filter, sortBy, page }) {
@@ -49,22 +50,13 @@ export async function getUser(id) {
   return data;
 }
 
-
 export async function createEditUser(newUser, id) {
   if (!id) {
-    // Optional: Create user in auth (auto-confirm)
-    const { data: { user }, error: authError } = await supabase.auth.signUp({
+    const { data: { user }, error: signUpError } = await supabase.auth.signUp({
       email: newUser.email,
       password: import.meta.env.VITE_TEMPORARY_PASSWORD,
     });
-    if (authError) throw authError;
-
-    // const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
-    //   user_metadata: {
-    //     full_name: newUser.username,
-    //   },
-    // });
-    // if (updateError) throw updateError;
+    if (signUpError) throw signUpError;
 
     newUser.id = user.id;
     const { data, error } = await supabase
@@ -76,60 +68,45 @@ export async function createEditUser(newUser, id) {
     return data;
   }
 
-  const { data, error } = await supabase
+  const { data: updated, error: updateError } = await supabase
     .from("user_extension")
     .update(newUser)
     .eq("id", id)
     .select()
     .single();
-  if (error) throw new Error("User could not be updated");
-  return data;
+  if (updateError) throw new Error("User extension update failed");
+
+  const { error: adminError } = await supabaseAdmin.auth.admin.updateUserById(id, {
+    email: newUser.email,
+    user_metadata: {
+      full_name: newUser.username,
+    },
+    banned: !newUser.is_active,
+  });
+
+  if (adminError) throw new Error("Auth user update failed");
+
+  return updated;
 }
-
-// export async function createUser(obj) {
-//   const { user, error: signUpError } = await supabase.auth.signUp({
-//     email,
-//     password
-//   });
-
-//   if (user) {
-//     await supabase.from('user_extension').insert({
-//       id: user.id,
-//       username,
-//       email,
-//       photo_image,
-//       is_active: true
-//     });
-//   }
-
-//   if (error) {
-//     console.error(error);
-//     throw new Error("User could not be created");
-//   }
-// }
-
-// export async function updateUser(id, obj) {
-//   const { data, error } = await supabase
-//     .from("user_extension")
-//     .update(obj)
-//     .eq("id", id)
-//     .select()
-//     .single();
-
-//   if (error) {
-//     console.error(error);
-//     throw new Error("User could not be updated");
-//   }
-//   return data;
-// }
 
 export async function deleteUser(id) {
-  // REMEMBER RLS POLICIES
-  const { data, error } = await supabase.from("user_extension").delete().eq("id", id);
+  const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(id);
+
+  if (authError) {
+    console.error("Failed to delete auth user", authError);
+    throw new Error("Failed to delete user from auth");
+  }
+
+  const { data, error } = await supabase
+    .from("user_extension")
+    .delete()
+    .eq("id", id);
 
   if (error) {
-    console.error(error);
-    throw new Error("User could not be deleted");
+    console.error("Failed to delete user_extension record", error);
+    throw new Error("Failed to delete user from user_extension");
   }
+
   return data;
 }
+
