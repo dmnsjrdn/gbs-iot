@@ -83,7 +83,11 @@ const TrashBinLayout = () => {
         <Section>
           <div className="main-wrapper">
             <div className="trash-bin-flex">
-              {data.map((d) => (<TrashBinImage name={d.bin} level={d.value} />))}
+              {[...data]
+                .sort((a, b) => a.bin.localeCompare(b.bin))
+                .map((d) => (
+                  <TrashBinImage key={d.bin} name={d.bin} level={d.value} />
+                ))}
             </div>
           </div>
         </Section>

@@ -6,7 +6,7 @@ const TrashBinImage = ({ name, level }) => {
             <div className={level > 80 ? "fill-overlay" : "fill-overlay-below" } style={{ height: `${level}%` }}></div>
             <img
                 src="/empty-trash-can.png"
-                alt="Trash Bin"
+                alt={`Trash Bin ${name}`}
                 className="bin-img"
             />
             <div className="level-label">{level}%</div>
