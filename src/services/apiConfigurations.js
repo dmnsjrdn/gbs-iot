@@ -5,7 +5,7 @@ export async function getConfigurations({ filter, sortBy, page }) {
   let query = supabase
     .from("app_configuration")
     .select(
-      "id, email_recipients, sms_recipients, modified_at",
+      "id, email_recipients, sms_recipients, enable_email_notif, modified_at",
       { count: "exact" }
     );
 

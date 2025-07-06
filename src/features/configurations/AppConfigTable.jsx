@@ -14,10 +14,10 @@ function AppConfigTable() {
 
   return (
     <Menus>
-      <Table columns="2.4fr 2.4fr 2fr 3.2rem">
+      <Table columns="3.8fr 1fr 2fr 3.2rem">
         <Table.Header>
           <div>Email Recipients</div>
-          <div>SMS Recipients</div>
+          <div>Email Notif Enabled</div>
           <div>Modified At</div>
           <div></div>
         </Table.Header>

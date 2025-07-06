@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import Textarea from "../../ui/Textarea";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import FormRowVertical from "../../ui/FormRowVertical"
+import Checkbox from "../../ui/Checkbox";
 
 import { useEditConfiguration } from "./useEditConfiguration";
 
@@ -14,6 +16,9 @@ function FormAppConfig({ appConfigToEdit = {}, onCloseModal }) {
 
     const { id: editId, ...editValues } = appConfigToEdit;
 
+
+    const [isEnable, setIsEnable] = useState(editValues.enable_email_notif);
+
     const { register, handleSubmit, reset, formState } = useForm({
         defaultValues: editValues,
     });
@@ -21,7 +26,7 @@ function FormAppConfig({ appConfigToEdit = {}, onCloseModal }) {
 
     const onSubmit = (data) => {
         editConfig(
-            { appConfigData: { ...data }, id: editId },
+            { appConfigData: { ...data, enable_email_notif: isEnable}, id: editId },
             {
                 onSuccess: (data) => {
                     reset();
@@ -49,15 +54,18 @@ function FormAppConfig({ appConfigToEdit = {}, onCloseModal }) {
                     })}
                 />
             </FormRowVertical>
+            <i>This field accepts comma delimited data, all email entered here will receive email notification.</i>
+            <br />
+            <i>Please enter the data in <strong>one line</strong>.</i>
 
-            <FormRowVertical label="SMS Recipients" error={errors?.sms_recipients?.message}>
-                <Textarea
-                    type="text"
-                    id="sms_recipients"
+            <FormRowVertical>
+                <Checkbox
+                    id="enable_email_notif"
+                    checked={isEnable}
                     disabled={isWorking}
-                    {...register("sms_recipients", {
-                    })}
-                />
+                    onChange={() => setIsEnable((enable) => !enable)}>
+                    Enable email notification?
+                </Checkbox>
             </FormRowVertical>
 
             <FormRow>

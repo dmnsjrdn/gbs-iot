@@ -5,6 +5,7 @@ import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 import FormAppConfig from "./FormAppConfig";
+import Tag from "../../ui/Tag";
 
 const Stacked = styled.div`
   display: flex;
@@ -26,9 +27,14 @@ function AppConfigRow({ row }) {
   const {
     id: id,
     email_recipients,
-    sms_recipients,
+    enable_email_notif,
     modified_at
   } = row;
+
+  const enableStatus = {
+    "true": "green",
+    "false": "silver",
+  };
 
   return (
     <Table.Row>
@@ -38,7 +44,7 @@ function AppConfigRow({ row }) {
       </Stacked>
 
       <Stacked>
-        <span>{!!(sms_recipients) ? sms_recipients : "--"}</span>
+        <Tag type={enableStatus[enable_email_notif]}>{enable_email_notif?.toString()}</Tag>
       </Stacked>
 
       <Stacked>

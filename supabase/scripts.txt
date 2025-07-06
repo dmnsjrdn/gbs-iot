@@ -42,21 +42,21 @@ step 3: Run this in SQL Editor, create a function
 create or replace function call_edge_on_bin_log_insert()
 returns trigger as $$
 declare
+  config record;
   response json;
-  recipients text;
   payload text;
 begin
-  -- Only send email if the value exceeds threshold
-  if NEW.value > 79 then
-    -- Get the latest email_recipients
-    select email_recipients into recipients
-    from app_configuration
-    order by modified_at desc
-    limit 1;
+  -- Fetch config
+  select enable_email_notif, email_recipients into config
+  from app_configuration
+  order by modified_at desc
+  limit 1;
 
-    -- Build the raw JSON payload string (text)
+  -- Check conditions
+  if config.enable_email_notif and NEW.value > 79 then
+    -- Construct email payload
     payload := 
-      '{ "to": "' || recipients || '", "subject": "Bin Alert!", "html": "' ||
+      '{ "to": "' || config.email_recipients || '", "subject": "Bin Alert!", "html": "' ||
       '<div style=\"font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;\">' ||
         '<div style=\"max-width: 600px; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\">' ||
           '<div style=\"font-size: 20px; font-weight: bold; color: #333; margin-bottom: 16px;\">🚨 Bin Level Alert</div>' ||
@@ -72,29 +72,12 @@ begin
       '</div>' ||
       '" }';
 
-
-    -- uncomment this if you use the step 6
-    -- Log the payload to debug table
-    /*
-    insert into debug_log_table(log_time, message)
-    values (now(), payload);
-
-    -- Call Edge Function
+    -- Send to Edge Function
     select * into response from http_post(
       'https://vrqncbztporodhozcfcg.supabase.co/functions/v1/resend-email',
       payload,
       'application/json'
     );
-
-    -- uncomment this if you use the step 6
-    -- logging
-    /*
-    insert into debug_log_table(log_time, message)
-    values (now(), 'Edge Function response: ' || response::text);
-    */
-
-    -- Optional: log response
-    raise notice 'Email sent. Response: %', response;
   end if;
 
   return NEW;
