@@ -3,7 +3,7 @@ import { getBinLogs } from "../../services/apiBinLogs";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
-export function useBinLogs({ queryDate }) {
+export function useBinLogs() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -22,7 +22,7 @@ export function useBinLogs({ queryDate }) {
     error,
   } = useQuery({
     queryKey: ["bin_log", sortBy, page],
-    queryFn: () => getBinLogs({ sortBy, page, queryDate }),
+    queryFn: () => getBinLogs({ sortBy, page }),
   });
 
   // PRE-FETCHING
@@ -31,13 +31,13 @@ export function useBinLogs({ queryDate }) {
   if (page < pageCount)
     queryClient.prefetchQuery({
       queryKey: ["bin_log", sortBy, page + 1],
-      queryFn: () => getBinLogs({ sortBy, page: page + 1, queryDate }),
+      queryFn: () => getBinLogs({ sortBy, page: page + 1 }),
     });
 
   if (page > 1)
     queryClient.prefetchQuery({
       queryKey: ["bin_log", sortBy, page - 1],
-      queryFn: () => getBinLogs({ sortBy, page: page - 1, queryDate }),
+      queryFn: () => getBinLogs({ sortBy, page: page - 1 }),
     });
 
   return { isLoading, error, bin_logs, count };

@@ -28,21 +28,15 @@ export async function downloadBinLogsAsPDF(binLogs) {
   doc.save(`bin_logs_${new Date().toISOString()}.pdf`);
 }
 
-export async function getBinLogs({ sortBy, page, date }) {
+export async function getBinLogs({ sortBy, page }) {
   let query = supabase
     .from("bin_log")
-    .select(
-      "bin, value, created_at, bin(bin)",
-      { count: "exact" }
-    );
-
-  if (date)
-    query = query.gte("created_at", date);
+    .select("bin, value, created_at, bin(bin)", { count: "exact" });
 
   // SORT
   if (sortBy)
     query = query.order(sortBy.field, {
-      ascending: sortBy.direction === "des",
+      ascending: sortBy.direction === "asc",
     });
 
   if (page) {
