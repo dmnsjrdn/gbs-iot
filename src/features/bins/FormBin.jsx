@@ -63,7 +63,7 @@ function FormBin({ binToEdit = {}, onCloseModal }) {
                 <Input
                     type="text"
                     id="bin"
-                    disabled={isWorking}
+                    disabled={isEditSession}
                     {...register("bin", {
                         required: "This field is required",
                     })}

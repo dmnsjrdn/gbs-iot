@@ -66,23 +66,11 @@ function BinRow({ row }) {
             <Modal.Open opens="edit">
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             </Modal.Open>
-
-            <Modal.Open opens="delete">
-              <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-            </Modal.Open>
           </Menus.List>
 
           <Modal.Window name="edit">
             <FormBin binToEdit={row} />
           </Modal.Window>
-
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName="bins"
-              disabled={isDeleting}
-              onConfirm={() => deleteBin(bin)} />
-          </Modal.Window>
-
         </Menus.Menu>
       </Modal>
 
