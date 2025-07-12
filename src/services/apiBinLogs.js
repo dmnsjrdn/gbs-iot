@@ -15,10 +15,10 @@ export async function downloadBinLogsAsPDF(binLogs) {
 
   autoTable(doc, {
     startY: 30,
-    head: [["ID", "Bin", "Value", "Timestamp"]],
-    body: binLogs.map((row) => [
-      row.id,
-      row.bin?.bin ?? row.bin ?? "N/A", // fallback for nested bin or plain
+    head: [["#", "Bin", "Value", "Timestamp"]],
+    body: binLogs.map((row, index) => [
+      index + 1, // Row number
+      row.bin?.bin ?? row.bin ?? "N/A", // Bin name
       row.value + "%",
       new Date(row.created_at).toLocaleString(),
     ]),
@@ -27,11 +27,63 @@ export async function downloadBinLogsAsPDF(binLogs) {
 
   doc.save(`bin_logs_${new Date().toISOString()}.pdf`);
 }
+export async function downloadFilteredBinLogsAsPDF(last) {
+  const pageSize = 1000;
+  let allLogs = [];
+  let page = 0;
+  let moreData = true;
 
-export async function getBinLogs({ sortBy, page }) {
+  while (moreData) {
+    let query = supabase
+      .from("bin_log")
+      .select("id, bin, value, created_at, bin(bin)");
+
+    if (last) {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const fromDate = new Date(
+        now.getTime() - (Number(last) - 1) * 24 * 60 * 60 * 1000
+      );
+      query = query.gte("created_at", fromDate.toISOString());
+    }
+
+    // Pagination range
+    const from = page * pageSize;
+    const to = from + pageSize - 1;
+    query = query.range(from, to);
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to fetch logs for PDF");
+    }
+
+    allLogs = allLogs.concat(data);
+
+    if (data.length < pageSize) {
+      moreData = false;
+    } else {
+      page++;
+    }
+  }
+
+  downloadBinLogsAsPDF(allLogs);
+}
+
+export async function getBinLogs({ sortBy, page, last }) {
   let query = supabase
     .from("bin_log")
     .select("bin, value, created_at, bin(bin)", { count: "exact" });
+
+  if (last) {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0); // reset to start of day
+    const fromDate = new Date(
+      now.getTime() - (Number(last) - 1) * 24 * 60 * 60 * 1000
+    );
+    query = query.gte("created_at", fromDate.toISOString());
+  }
 
   // SORT
   if (sortBy)
@@ -58,8 +110,7 @@ export async function getBinLogs({ sortBy, page }) {
 export async function getBinLogsTop() {
   let query = supabase
     .from("bin_log")
-    .select(
-      "bin, value, created_at, bin(bin)")
+    .select("bin, value, created_at, bin(bin)")
     .order("created_at", { ascending: false })
     .range(0, 4);
 

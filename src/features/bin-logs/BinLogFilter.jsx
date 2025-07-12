@@ -8,6 +8,7 @@ function BinLogFilter() {
         { value: "1", label: "Today" },
         { value: "7", label: "Last 7 days" },
       ]}
+      active="1"
     />
   );
 }

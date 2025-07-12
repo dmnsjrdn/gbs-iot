@@ -14,6 +14,7 @@ export function useBinLogs() {
 
   // PAGINATION
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+  const last = searchParams.get("last") || "1";
 
   // QUERY
   const {
@@ -21,8 +22,8 @@ export function useBinLogs() {
     data: { data: bin_logs, count } = {},
     error,
   } = useQuery({
-    queryKey: ["bin_log", sortBy, page],
-    queryFn: () => getBinLogs({ sortBy, page }),
+    queryKey: ["bin_log", sortBy, page, last],
+    queryFn: () => getBinLogs({ sortBy, page, last }),
   });
 
   // PRE-FETCHING
@@ -30,14 +31,14 @@ export function useBinLogs() {
 
   if (page < pageCount)
     queryClient.prefetchQuery({
-      queryKey: ["bin_log", sortBy, page + 1],
-      queryFn: () => getBinLogs({ sortBy, page: page + 1 }),
+      queryKey: ["bin_log", sortBy, page + 1, last],
+      queryFn: () => getBinLogs({ sortBy, page: page + 1, last }),
     });
 
   if (page > 1)
     queryClient.prefetchQuery({
-      queryKey: ["bin_log", sortBy, page - 1],
-      queryFn: () => getBinLogs({ sortBy, page: page - 1 }),
+      queryKey: ["bin_log", sortBy, page - 1, last],
+      queryFn: () => getBinLogs({ sortBy, page: page - 1, last }),
     });
 
   return { isLoading, error, bin_logs, count };
