@@ -62,7 +62,7 @@ begin
           '<div style=\"font-size: 20px; font-weight: bold; color: #333; margin-bottom: 16px;\">🚨 Bin Level Alert</div>' ||
           '<div style=\"background-color: #ffe5e5; padding: 15px; border-left: 5px solid #d9534f; margin-bottom: 20px; border-radius: 5px;\">' ||
             '<p>Bin <strong>' || NEW.bin || '</strong> reported a high fill level of <strong>' || NEW.value || '%</strong>.</p>' ||
-            '<p>Timestamp:<br><strong>' || NEW.created_at || '</strong></p>' ||
+            '<p>Timestamp:<br><strong>' || TO_CHAR(NEW.created_at AT TIME ZONE 'Asia/Manila', 'DD Mon YYYY HH12:MI:SS AM') || ' PHT</strong></p>' ||
           '</div>' ||
           '<p>Please schedule a pickup or take necessary action.</p>' ||
           '<div style=\"font-size: 12px; color: #888; margin-top: 30px; text-align: center;\">' ||
