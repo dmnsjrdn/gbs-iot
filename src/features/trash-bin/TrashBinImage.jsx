@@ -9,7 +9,7 @@ const TrashBinImage = ({ name, level }) => {
                 alt={`Trash Bin ${name}`}
                 className="bin-img"
             />
-            <div className="level-label">{level}%</div>
+            <div className="level-label">{level ?? 0}%</div>
             <div className="level-label">{name}</div>
         </div>
     );
